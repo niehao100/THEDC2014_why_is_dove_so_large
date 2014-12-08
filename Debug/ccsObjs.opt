@@ -1,0 +1,1 @@
+"./utils/uartstdio.obj" "./timer.obj" "./startup_ccs.obj" "./senseros.obj" "./move.obj" "./main.obj" "./commu.obj" "../timers_ccs.cmd" -l"libc.a" -l"C:/ti/TivaWare_C_Series-2.0.1.11577/examples/boards/ek-tm4c123gxl/timers/ccs/../../../../../driverlib/ccs/Debug/driverlib.lib" 
