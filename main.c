@@ -61,7 +61,7 @@ int main(void)
 
 {
 	int i=0,x=0,y=0,time=0,k=0;
-	char score=0，_place=0;
+	char score=0，_place=0,p=0;
 
 	Init(); //初始化针脚什么的
 	begin:
@@ -81,16 +81,16 @@ int main(void)
 
 //比赛逻辑
 	for(;Position[23]==0x01;){
-		if((target[0]==0)&&(target[1]==0)&&(target[2]==0)&&(target[3]==0))
+		if((check[0]==0)&&(check[1]==0)&&(check[2]==0)&&(check[3]==0))
 		for(i=0;i<4;i++)	target[i]=1;
 		_place=Place(head_local[0],head_local[1]);
-		if(check[int(place/10)]){
-			target[int(place/10)](_place);
-		}
+		p=(int)(_place/10)-1;
+		if(check[p])	target[p](_place);
 		else{
-
+			if(check[(p==0)?3:(p-1)]) target[(p==0)?3:(p-1)];continue;
+			if(check[(p==3)?0:(p+1)]) target[(p==3)?0:(p+1)];continue;
+			if(check[(p>1)?(p-2):(p+2)])	target[(p>1)?(p-2):(p+2)]; continue;
 		}
-
 	}
 	goto begin;
 	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, 0x08);

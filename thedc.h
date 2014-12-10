@@ -104,6 +104,6 @@ void target1(int judge);
 void target2(int judge);
 void target3(int judge);
 void target4(int judge);
-void (*target[4])(int judge)={&target1,&target2,&target3,&target4};
-check[4]={1,1,1,1};
+extern void (*target[4])(int judge);
+extern int check[4];
 #endif /* THEDC_H_ */
