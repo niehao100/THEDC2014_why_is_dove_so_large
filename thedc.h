@@ -100,6 +100,9 @@ void Timer1IntHandler(void);
 void GPIOA6INT(void);
 
 //Âß¼­
+#define _Px 55
+#define _Py 55
+int Place();
 void target1(int judge);
 void target2(int judge);
 void target3(int judge);

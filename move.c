@@ -111,7 +111,7 @@ head_begin:
 
 
 void move_to(unsigned char x,unsigned char y){
-int i=0,v=0,t=0;
+int i=0,t=0;
 
 for(;S_flag==1;){
 			if((abs(x-head_local[0])<20)&&(abs(y-head_local[1])<20)) break;
@@ -120,6 +120,7 @@ for(;S_flag==1;){
 				t=(int)(sqrt((x-center_local[0])*(x-center_local[0])+(y-center_local[1])*(y-center_local[1])));
 			for(i=-0;i<t;i++) move_stright(8);
 	}
+
 return ;
 }
 
