@@ -101,10 +101,9 @@ int place(int head_x,int head_y)
         }
     }
 }
-void target1(int head_x,int head_y)//朝第一个坑走
+
+void target1(int judge)//朝第一个坑走
 {
-    int judge;
-    judge=place(head_x,head_y);
     if(judge/10==1)//在一号大区域
     {
         move_to(55,55);
@@ -113,7 +112,6 @@ void target1(int head_x,int head_y)//朝第一个坑走
     {
         if(judge%10==1)//二号大区域里的一号小区域
         {
-            head(head_x, )
             move_to(55,55);
         }
         if(judge%10==2)//二号大区域里的二号小区域
