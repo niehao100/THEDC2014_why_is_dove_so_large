@@ -1,5 +1,5 @@
 #include "thedc.h"
-
+/*
 int check[4]={1,1,1,1};
 void (*target[4])(int judge)={&target1,&target2,&target3,&target4};
 
@@ -105,3 +105,4 @@ void target1(int judge)//鏈濈涓�釜鍧戣蛋
     }
 
 }
+*/

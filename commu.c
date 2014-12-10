@@ -53,10 +53,10 @@ void UARTIntHandler(void)
 						Position[k]=queue.q[j];
 						j++;if(j==50) j=0;
 					}
-					head_local[0]=Position[1];
-					head_local[1]=Position[2];
-					tail_local[0]=Position[3];
-					tail_local[1]=Position[4];
+					head_local[0]=Position[1+5*Position[0]];
+					head_local[1]=Position[2+5*Position[0]];
+					tail_local[0]=Position[3+5*Position[0]];
+					tail_local[1]=Position[4+5*Position[0]];
 					center_local[0]=(int)((head_local[0]+tail_local[0])/2);center_local[1]=(int)((head_local[1]+tail_local[1])/2);
 
 					UART_flag++;	if(UART_flag==10000) UART_flag=0;
