@@ -20,7 +20,7 @@ void GPIOA6INT(void){
 		/*if((senser_flag%3)==1)	{for(i=0;i<100;i++) turn_right_back();S_flag=1;}
 		if((senser_flag%3)==2)	{for(i=0;i<50;i++) turn_left_back(); S_flag=1;}*/
 	}
-	UARTprintf("%d ",t);
+
 	IntEnable(INT_GPIOA);
 
 }

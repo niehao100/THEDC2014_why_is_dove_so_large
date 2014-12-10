@@ -23,7 +23,7 @@
 #include "driverlib/uart.h"
 #include "C:/ti/TivaWare_C_Series-2.0.1.11577/driverlib/uartstdio.h"
 
-struct Player
+/*struct Player
 {
 	//小车的编号(1——4之间的某一个)
 	unsigned char player_loc;
@@ -61,9 +61,8 @@ struct Player
 	unsigned char end0;//0x0D;
 	unsigned char end1;//0x0A;
 };
-
 struct Player info;
-
+*/
 
 
 
@@ -73,12 +72,12 @@ extern struct Player info;
 extern struct Queue queue;
 extern unsigned char Position[26];
 extern int head_local[2],tail_local[2],center_local[2];
-extern char S_flag;
-extern char senser_flag;
+extern char S_flag;//传感器状态
+extern char senser_flag;//判断是那个传感器
+//move
 #define ahead 0x4
 #define back 0x8
 #define stop 0xc
-
 void move_stright(int);
 void left_move();
 void right_move();
@@ -86,22 +85,25 @@ void turn_left();
 void turn_right();
 void turn_left_back();
 void turn_right_back();
-void UARTConfig();
 int head(unsigned char,unsigned char);
 void move_to(unsigned char,unsigned char);
-
-void
-	UARTSend(const uint8_t *, uint32_t );
-
-void
-	UARTIntHandler(void);
+void move_to_exact(unsigned char x,unsigned char y);
+//通信函数
+void UARTSend(const uint8_t *, uint32_t );
+void UARTConfig();
+void UARTIntHandler(void);
 
 //传感器
-void
-	Timer0IntHandler(void);
+void Timer0IntHandler(void);
 void TimerConfig();
-void
-	Timer1IntHandler(void);
+void Timer1IntHandler(void);
 void GPIOA6INT(void);
 
+//逻辑
+void target1(int judge);
+void target2(int judge);
+void target3(int judge);
+void target4(int judge);
+void (*target[4])(int judge)={&target1,&target2,&target3,&target4};
+check[4]={1,1,1,1};
 #endif /* THEDC_H_ */
