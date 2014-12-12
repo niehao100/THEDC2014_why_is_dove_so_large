@@ -9,6 +9,7 @@
 #define THEDC_H_
 #include <stdint.h>
 #include <stdbool.h>
+#include <stdlib.h>
 #include "inc/hw_ints.h"
 #include "inc/hw_memmap.h"
 #include "inc/hw_types.h"
@@ -72,12 +73,15 @@ extern struct Player info;
 extern struct Queue queue;
 extern unsigned char Position[26];
 extern int head_local[2],tail_local[2],center_local[2];
-extern char S_flag;//传感器状态
+extern int S_flag;//传感器状态
+extern int UART_flag;
 extern char senser_flag;//判断是那个传感器
+extern int check[4]; //有效坑判断
 //move
 #define ahead 0x4
 #define back 0x8
 #define stop 0xc
+
 void move_stright(int);
 void left_move();
 void right_move();
@@ -92,18 +96,22 @@ void move_to_exact(unsigned char x,unsigned char y);
 void UARTSend(const uint8_t *, uint32_t );
 void UARTConfig();
 void UARTIntHandler(void);
+void UART0IntHandler(void);
 
 //传感器
 void Timer0IntHandler(void);
 void TimerConfig();
-void Timer1IntHandler(void);
 void GPIOA6INT(void);
 
 //逻辑
+void get_score(int x,int y);
+#define _Px 57
+#define _Py 60
 void target1(int judge);
 void target2(int judge);
 void target3(int judge);
 void target4(int judge);
-extern void (*target[4])(int judge);
-extern int check[4];
+int Place();
+
+
 #endif /* THEDC_H_ */

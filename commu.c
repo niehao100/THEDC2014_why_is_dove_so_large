@@ -45,6 +45,7 @@ void UARTIntHandler(void)
 				center_local[0]=(int)((head_local[0]+tail_local[0])/2);center_local[1]=(int)((head_local[1]+tail_local[1])/2);
 				UART_flag++;	if(UART_flag==10000) UART_flag=0;
 			}
+			IntMasterEnable();
 		}
 		else {
 				if((queue.q[(queue.i==0)?49:(queue.i-1)]==0x0D)&&(queue.q[queue.i+24]==0x0A)){
@@ -53,13 +54,13 @@ void UARTIntHandler(void)
 						Position[k]=queue.q[j];
 						j++;if(j==50) j=0;
 					}
-					head_local[0]=Position[1];
-					head_local[1]=Position[2];
-					tail_local[0]=Position[3];
-					tail_local[1]=Position[4];
+					head_local[0]=Position[1+5*Position[0]];
+					head_local[1]=Position[2+5*Position[0]];
+					tail_local[0]=Position[3+5*Position[0]];
+					tail_local[1]=Position[4+5*Position[0]];
 					center_local[0]=(int)((head_local[0]+tail_local[0])/2);center_local[1]=(int)((head_local[1]+tail_local[1])/2);
-
 					UART_flag++;	if(UART_flag==10000) UART_flag=0;
+					IntMasterEnable();
 				}
 						//»ØË·
 			 }
@@ -121,9 +122,9 @@ void UARTConfig(){
 
 	ROM_IntMasterEnable();
 
-	IntEnable(INT_UART0);
+//	IntEnable(INT_UART0);
 	IntEnable(INT_UART1);
-	UARTIntEnable(UART0_BASE, UART_INT_RX | UART_INT_RT);
+//	UARTIntEnable(UART0_BASE, UART_INT_RX | UART_INT_RT);
 	UARTIntEnable(UART1_BASE, UART_INT_RX | UART_INT_RT);
 
 	UARTSend((uint8_t *)"\033  Enter text: ", 16);

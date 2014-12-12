@@ -14,13 +14,11 @@ void TimerConfig(){
 
 	TimerEnable(TIMER0_BASE, TIMER_A);
 
-	ROM_TimerLoadSet(TIMER0_BASE, TIMER_A, ROM_SysCtlClockGet()/30);
+	ROM_TimerLoadSet(TIMER0_BASE, TIMER_A, ROM_SysCtlClockGet()/32);
 
 	ROM_IntEnable(INT_TIMER0A);
 
 	ROM_TimerIntEnable(TIMER0_BASE, TIMER_TIMA_TIMEOUT);
-
-
 
 }
 
@@ -29,13 +27,10 @@ void TimerConfig(){
 void
 	Timer0IntHandler(void)
 {
-
-
 	//
 	// Clear the timer interrupt.
 	//
 	ROM_TimerIntClear(TIMER0_BASE, TIMER_TIMA_TIMEOUT);
-
 	//
 	// Toggle the flag for the first timer.
 	//
@@ -45,7 +40,6 @@ void
 	// Use the flags to Toggle the LED for this timer
 	//
 	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, g_ui32Flags << 1);
-
 	//
 	// Update the interrupt status on the display.
 	//
@@ -76,7 +70,6 @@ void
 	senser_flag++;
 	//UARTprintf("next");
 	//  UARTCharPutNonBlocking(UART0_BASE,ROM_UARTCharGetNonBlocking(UART1_BASE));
-
 }
 
 
