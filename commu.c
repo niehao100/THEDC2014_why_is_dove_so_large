@@ -69,9 +69,9 @@ void UARTIntHandler(void)
 		//for(j=0;j<26;j++)
 
 	}
-	if(Position[22]<5) exit(0);
+	//if(Position[22]<5) exit(0);
 	if((Position[22]-time)<5) S_flag=-1;
-	if((Position[22]-time)==0) {for(j=0;j<4;j++)	check[j]=1;time-=30;score_change=score;}
+	if((Position[22]-time)==0) {for(j=0;j<4;j++)	check[j]=1;time=Position[22]-30;score_change=score;}
 
 	IntMasterEnable();
 }

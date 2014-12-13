@@ -79,34 +79,36 @@ int head(unsigned char x,unsigned char y){
 	int i=0,t=0,v=0;
 
 head_begin:
-	SysCtlDelay(SysCtlClockGet()/160);
+	SysCtlDelay(SysCtlClockGet()/100);
 	if(t==UART_flag) goto head_begin;
 	t=UART_flag;
 	if(Position[25]!=0x0A) goto head_begin;
-	if(abs(x-center_local[0])<5&&abs(y-center_local[1])<5) {
+	if((abs(x-center_local[0])<5)&&(abs(y-center_local[1])<5)) {
 				return 1;
 	}
-
+	IntMasterDisable();
 	a=atan2((double)(head_local[1]-tail_local[1]),(double)(head_local[0]-tail_local[0]));
 	angel=atan2((double)(y-center_local[1]),(double)(x-center_local[0]));
 	angel=(angel>=0)?angel:(angel+2*3.1415926);
 	a=(a>=0)?a:(a+2*3.1415926);
-	if((angel-a)>=3.1415926){angel-=2*3.1415926;}
-	if((a-angel)>=3.1415926){a-=2*3.1415926;}
-	sum+=angel-a;
-
+	if((angel-a)>=3.1415926){angel=-2*3.1415926+(angel-a);}
+	else {if((a-angel)>=3.1415926)
+		   angel=2*3.1415926-(-angel+a);
+			else angel-=a;
+	}
+		sum+=angel;
+		IntMasterEnable();
 		//PID¿ØÖÆ
-		v=(int)(7*(angel-a));//+1.5*sum+8*(angel-a-d));
-		d=angel-a;
-		if(a<=(angel-5*0.0175)){
-				for(i=0;i<abs(v)+3;i++) turn_right();
+		v=(int)(3.8*angel+1.4*sum);//+8*(angel-d));
+		d=angel;
+		if(angel>=0.0875){
+				for(i=0;i<abs(v);i++) turn_right();
 				goto head_begin;
 		}
-		if(a>=(angel+5*0.0175)){
-				for(i=0;i<abs(v)+3;i++) turn_left();
+		if(angel<=-0.0875){
+				for(i=0;i<abs(v);i++) turn_left();
 				goto head_begin;
 		}
-		return 1;
 }
 
 

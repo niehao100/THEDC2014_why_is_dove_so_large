@@ -61,45 +61,45 @@ int main(void)
 
 	void (*target[4])(int judge)={&target1,&target2,&target3,&target4};
 	int i=0,x=0,y=0,k=0;
-	unsigned char _place=0,p=0;
+	unsigned char place=0,p=0;
 	Init(); //初始化针脚什么的
 
 
 	begin:
 	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, 0x08);
-	while(1){
-		SysCtlDelay(SysCtlClockGet()/90);
-		UARTprintf("%d ",Position[23]);
-		if(Position[23]==0x01); break;
+	for(;;){
+		SysCtlDelay(160000);
+		if(Position[23]==1) break;
 	}
-	for(;;){if(Position[23]==1) break;
-	UARTprintf("%d ",Position[23]);}
+	SysCtlDelay(160000);
 
 	time=Position[22];
 
-	head(255,255);
+	//head(255,255);
 	//比赛逻辑
-/*	for(;;){
+	for(;;){
 		score=Position[5+5*Position[0]]+Position[5+5*enemy_flag];
 		if(Position[22]<(time+5)){continue;}
 		if(Position[22]<5) exit(0);
-		if(((check[0]==0)&&(check[1]==0)&&(check[2]==0)&&(check[3]==0))||((Position[23]==time)==0))
+		if(((check[0]==0)&&(check[1]==0)&&(check[2]==0)&&(check[3]==0))||(Position[23]==time))
 		{for(i=0;i<4;i++)	check[i]=1;}
 
-		_place=Place(Position[1+5*Position[0]],Position[2+5*Position[0]]);
-		p=(int)(_place/10)-1;
-		if(score_change!=score) {target[p](_place); continue;}
+		place=Place(Position[1+5*Position[0]],Position[2+5*Position[0]]);
+		p=(int)(place/10)-1;
+		if(score_change!=score)
+			continue;
+
 		S_flag=1;
-		if(check[p])	{target[p](_place);check[p]=0;}
+		if(check[p])	{target[p](place);check[p]=0;}
 		else{
-			if(check[(p==0)?3:(p-1)]){ target[(p==0)?3:(p-1)](_place);check[(p==0)?3:(p-1)]=0;continue;}
-			if(check[(p==3)?0:(p+1)]){ target[(p==3)?0:(p+1)](_place);check[(p==3)?0:(p+1)]=0;continue;}
-			if(check[(p>1)?(p-2):(p+2)]){	target[(p>1)?(p-2):(p+2)](_place); check[(p>1)?(p-2):(p+2)]=0;continue;}
+			if(check[(p==0)?3:(p-1)]){ target[(p==0)?3:(p-1)](place);check[(p==0)?3:(p-1)]=0;continue;}
+			if(check[(p==3)?0:(p+1)]){ target[(p==3)?0:(p+1)](place);check[(p==3)?0:(p+1)]=0;continue;}
+			if(check[(p>1)?(p-2):(p+2)]){	target[(p>1)?(p-2):(p+2)](place); check[(p>1)?(p-2):(p+2)]=0;continue;}
 		}
 	}
 
 	goto begin;
-*/
+
 	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, 0x08);
 	return 0;
 
