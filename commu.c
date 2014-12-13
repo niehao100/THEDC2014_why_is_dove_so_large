@@ -61,7 +61,7 @@ void UARTIntHandler(void)
 					center_local[0]=(int)((head_local[0]+tail_local[0])/2);center_local[1]=(int)((head_local[1]+tail_local[1])/2);
 					UART_flag++;	if(UART_flag==10000) UART_flag=0;
 					IntMasterEnable();
-				}
+								}
 						//»ØË·
 			 }
 
@@ -69,6 +69,10 @@ void UARTIntHandler(void)
 		//for(j=0;j<26;j++)
 
 	}
+	if(Position[22]<5) exit(0);
+	if((Position[22]-time)<5) S_flag=-1;
+	if((Position[22]-time)==0) {for(j=0;j<4;j++)	check[j]=1;time-=30;score_change=score;}
+
 	IntMasterEnable();
 }
 
@@ -122,9 +126,9 @@ void UARTConfig(){
 
 	ROM_IntMasterEnable();
 
-//	IntEnable(INT_UART0);
+	IntEnable(INT_UART0);
 	IntEnable(INT_UART1);
-//	UARTIntEnable(UART0_BASE, UART_INT_RX | UART_INT_RT);
+	UARTIntEnable(UART0_BASE, UART_INT_RX | UART_INT_RT);
 	UARTIntEnable(UART1_BASE, UART_INT_RX | UART_INT_RT);
 
 	UARTSend((uint8_t *)"\033  Enter text: ", 16);

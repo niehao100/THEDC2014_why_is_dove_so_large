@@ -66,7 +66,7 @@ struct Player info;
 */
 
 
-
+extern unsigned char enemy_flag,time;
 extern char flag;
 extern int t;
 extern struct Player info;
@@ -77,6 +77,7 @@ extern int S_flag;//传感器状态
 extern int UART_flag;
 extern char senser_flag;//判断是那个传感器
 extern int check[4]; //有效坑判断
+extern unsigned char score,score_change,enemy_flag,time;
 //move
 #define ahead 0x4
 #define back 0x8
@@ -111,7 +112,7 @@ void target1(int judge);
 void target2(int judge);
 void target3(int judge);
 void target4(int judge);
-int Place();
+int Place(unsigned char x,unsigned char y);
 
 
 #endif /* THEDC_H_ */

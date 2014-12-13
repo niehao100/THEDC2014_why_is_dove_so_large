@@ -1,6 +1,7 @@
 
 #include "thedc.h"
 
+unsigned char score=0,score_change=0,enemy_flag=0,time=0;
 void Init(void){
 
 	FPUEnable();
@@ -47,9 +48,9 @@ void Init(void){
 
 	UARTConfig();
 	TimerConfig();
-	IntRegister(1,UARTIntHandler);
+	IntRegister(0,UARTIntHandler);
 	IntRegister(4,UART0IntHandler);
-	IntRegister(0,Timer0IntHandler);
+	IntRegister(1,Timer0IntHandler);
     IntRegister(2,GPIOA6INT);
 }
 
@@ -59,31 +60,36 @@ int main(void)
 {
 
 	void (*target[4])(int judge)={&target1,&target2,&target3,&target4};
-	int i=0,x=0,y=0,time=0,k=0;
-	char score=0,_place=0,p=0;
+	int i=0,x=0,y=0,k=0;
+	unsigned char _place=0,p=0;
 	Init(); //初始化针脚什么的
 
-	//for(i=0;i<100;i++) move_stright(7);
 
 	begin:
 	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, 0x08);
 	while(1){
 		SysCtlDelay(SysCtlClockGet()/90);
-
-		if(Position[23]==0x01) break;
+		UARTprintf("%d ",Position[23]);
+		if(Position[23]==0x01); break;
 	}
-	SysCtlDelay(SysCtlClockGet()/90);
+	for(;;){if(Position[23]==1) break;
+	UARTprintf("%d ",Position[23]);}
 
-	S_flag=2;
+	time=Position[22];
 
-//比赛逻辑
-	for(;;){
-		if(Position[23]==0) exit(0);
-		if((check[0]==0)&&(check[1]==0)&&(check[2]==0)&&(check[3]==0))
-		for(i=0;i<4;i++)	check[i]=1;
-		_place=Place();
+	head(255,255);
+	//比赛逻辑
+/*	for(;;){
+		score=Position[5+5*Position[0]]+Position[5+5*enemy_flag];
+		if(Position[22]<(time+5)){continue;}
+		if(Position[22]<5) exit(0);
+		if(((check[0]==0)&&(check[1]==0)&&(check[2]==0)&&(check[3]==0))||((Position[23]==time)==0))
+		{for(i=0;i<4;i++)	check[i]=1;}
+
+		_place=Place(Position[1+5*Position[0]],Position[2+5*Position[0]]);
 		p=(int)(_place/10)-1;
-		S_flag=2;
+		if(score_change!=score) {target[p](_place); continue;}
+		S_flag=1;
 		if(check[p])	{target[p](_place);check[p]=0;}
 		else{
 			if(check[(p==0)?3:(p-1)]){ target[(p==0)?3:(p-1)](_place);check[(p==0)?3:(p-1)]=0;continue;}
@@ -93,7 +99,7 @@ int main(void)
 	}
 
 	goto begin;
-
+*/
 	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, 0x08);
 	return 0;
 

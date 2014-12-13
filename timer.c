@@ -14,7 +14,7 @@ void TimerConfig(){
 
 	TimerEnable(TIMER0_BASE, TIMER_A);
 
-	ROM_TimerLoadSet(TIMER0_BASE, TIMER_A, ROM_SysCtlClockGet()/32);
+	ROM_TimerLoadSet(TIMER0_BASE, TIMER_A, ROM_SysCtlClockGet()/64);
 
 	ROM_IntEnable(INT_TIMER0A);
 
@@ -45,11 +45,11 @@ void
 	//
 	GPIOPinWrite(GPIO_PORTF_BASE,GPIO_PIN_1,0x2);
 
-	GPIOPinWrite(GPIO_PORTC_BASE,GPIO_PIN_5,0x20);
-	SysCtlDelay(SysCtlClockGet()/5000);//0.01s
-	GPIOPinWrite(GPIO_PORTC_BASE,GPIO_PIN_5,0);
+	//GPIOPinWrite(GPIO_PORTC_BASE,GPIO_PIN_5,0x20);
+	//SysCtlDelay(SysCtlClockGet()/5000);//0.01s
+	//GPIOPinWrite(GPIO_PORTC_BASE,GPIO_PIN_5,0);
 
-/*	switch (senser_flag%3){
+switch (senser_flag%2){
 	case 0:
 		GPIOPinWrite(GPIO_PORTB_BASE,GPIO_PIN_3,0x8);
 		SysCtlDelay(SysCtlClockGet()/5000);//0.01s
@@ -60,14 +60,15 @@ void
 		SysCtlDelay(SysCtlClockGet()/5000);//0.01s
 		GPIOPinWrite(GPIO_PORTC_BASE,GPIO_PIN_4,0);
 		break;
-	case 2:
+	/*case 2:
 		GPIOPinWrite(GPIO_PORTC_BASE,GPIO_PIN_5,0x20);
 		SysCtlDelay(SysCtlClockGet()/5000);//0.01s
 		GPIOPinWrite(GPIO_PORTC_BASE,GPIO_PIN_5,0);
 		break;
-	}*/
+*/	}
 	GPIOPinWrite(GPIO_PORTF_BASE,GPIO_PIN_1,0);
-	senser_flag++;
+	if((senser_flag++)>9998) senser_flag=0;
+
 	//UARTprintf("next");
 	//  UARTCharPutNonBlocking(UART0_BASE,ROM_UARTCharGetNonBlocking(UART1_BASE));
 }

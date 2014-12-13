@@ -2,22 +2,33 @@
 
 
 int check[4]={1,1,1,1};
+/*void beat_enemy(){
+	if(enemyin);
+
+	if((((int)(Place(Position[1+5*Position[0]],Position[2+5*Position[0]])/10))!=3)||
+			(((int)(Place(Position[1+5*Position[0]],Position[2+5*Position[0]])/10))!=4)||
+			((Place(Position[1+5*Position[0]],Position[2+5*Position[0]])%10)==
+					Place(Position[1+5*Position[0]],Position[2+5*Position[0]])%10)){
+	}
+
+}*/
 
 void get_score(int x,int y){
-	int score=0,time=0,i=0;
-	move_to_exact(x,y);
+	int t_c=0,i=0;
+	get_score_begin:	move_to_exact(x,y);
 	if(S_flag>0){
 			score=Position[5+5*Position[0]];
-			time=Position[22];
+			t=Position[22];
 			GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, 0x08);
-			for(;S_flag!=0;){
-				for(i=0;i<500;i++);
-				if(Position[23]==0x00) return;
-				if(Position[22]<(time-7)) break;
+			for(;;){
+				if(S_flag<1) return;
+				if(!((abs(x-center_local[0])<5)&&(abs(y-center_local[1])<5))) goto get_score_begin;
+				for(i=0;i<50;i++);
+				if(Position[23]==0x00) exit(0);
+				move_to_exact(x,y);
 				if(Position[5+5*Position[0]]!=score) 	break;
 				}
 			GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, 0x0);
-			for(i=0;i<4;i++) check[i]=1;
 
 			}
 }
@@ -25,50 +36,50 @@ void get_score(int x,int y){
 
 
 
-int Place()
+int Place(unsigned char x,unsigned char y)
 {
-    if(head_local[0]<=128&&head_local[1]<=128)
+    if(x<=128&&y<=128)
     {
-        if(head_local[0]>=head_local[1]){
-            if(head_local[0]>70)
+        if(x>=y){
+            if(x>70)
                 return 11;
             return 14;
         }
-        if(head_local[1]>70)
+        if(y>70)
             return 12;
         return 13;
     }
-    if(head_local[0]>128&&head_local[1]<=128){
-        if(head_local[0]>=255-head_local[1]){
-            if(head_local[1]>70)
+    if(x>128&&y<=128){
+        if(x>=255-y){
+            if(y>70)
                 return 22;
             return 23;
         }
-        if(255-head_local[0]>70)
+        if(255-x>70)
              return 21;
         return 24;
     }
-    if(head_local[0]>128&&head_local[1]>128)
+    if(x>128&&y>128)
     {
-        if(head_local[0]>=head_local[1]) {
-            if(255-head_local[1]>70)
+        if(x>=y) {
+            if(255-y>70)
             	return 32;
             return 33;
         }
-        if(255-head_local[0]>70)
+        if(255-x>70)
             return 31;
         return 34;
     }
-    if(head_local[0]<128&&head_local[1]>128)
+    if(x<128&&y>128)
     {
-        if(255-head_local[0]>=head_local[1])
+        if(255-x>=y)
         {
-            if(255-head_local[1]>70)
+            if(255-y>70)
             	return 42;
             return 43;
         }
 
-        if(head_local[0]>70)
+        if(x>70)
         	return 41;
         return 44;
     }
@@ -96,14 +107,14 @@ void target1(int judge)
         }
         if(judge%10==3)
         {
-            move_to(head_local[0],110);//竖直移动到II区
+            move_to(center_local[0],110);//竖直移动到II区
             move_to(_Px,96);
             //move_to_exact(_Px,96);
             get_score(_Px,_Py);
         }
         if(judge%10==4)
         {
-            move_to(110,head_local[1]);//水平移动到I区
+            move_to(110,center_local[1]);//水平移动到I区
             move_to(96,_Py);
             //move_to_exact(96,_Py);
             get_score(_Px,_Py);
@@ -125,14 +136,14 @@ void target1(int judge)
         }
         if(judge%10==3)
         {
-            move_to(head_local[0],110);
+            move_to(center_local[0],110);
             move_to(_Px,96);
             //move_to_exact(_Px,96);
             get_score(_Px,_Py);
         }
         if(judge%10==4)
         {
-            move_to(140,head_local[1]);
+            move_to(140,center_local[1]);
             move_to(96,_Py);
             //move_to_exact(96,_Py);
             get_score(_Px,_Py);
@@ -155,14 +166,14 @@ void target1(int judge)
         }
         if(judge%10==3)
         {
-            move_to(head_local[0],110);
+            move_to(center_local[0],110);
             //move_to_exact(_Px,96);
             move_to(_Px,96);
             get_score(_Px,_Py);
         }
         if(judge%10==4)
         {
-            move_to(150,head_local[1]);
+            move_to(150,center_local[1]);
             //move_to_exact(96,_Py);
             move_to(96,_Py);
             get_score(_Px,_Py);
@@ -184,14 +195,14 @@ void target1(int judge)
         }
         if(judge%10==3)
         {
-            move_to(head_local[0],110);
+            move_to(center_local[0],110);
             move_to(_Px,96);
             //move_to_exact(_Px,96);
             get_score(_Px,_Py);
         }
         if(judge%10==4)
         {
-            move_to(110,head_local[1]);
+            move_to(110,center_local[1]);
             move_to(96,_Py);
             //move_to_exact(96,_Py);
             get_score(_Px,_Py);
@@ -217,7 +228,7 @@ void target2(int judge)
         }
         if(judge%10==3)
         {
-            move_to(head_local[0],110);//竖直移动到II区
+            move_to(center_local[0],110);//竖直移动到II区
             move_to(255-_Px,96);
             //move_to_exact(255-_Px,96);
             head(255-_Px,_Py);
@@ -225,7 +236,7 @@ void target2(int judge)
         }
         if(judge%10==4)
         {
-            move_to(110,head_local[1]);//水平移动到I区
+            move_to(110,center_local[1]);//水平移动到I区
             move_to(150,_Py);
             //move_to_exact(150,_Py);
             get_score(255-_Px,_Py);
@@ -247,14 +258,14 @@ void target2(int judge)
         }
         if(judge%10==3)
         {
-            move_to(head_local[0],110);
+            move_to(center_local[0],110);
             move_to(255-_Px,96);
             //move_to_exact(255-_Px,96);
             get_score(255-_Px,_Py);
         }
         if(judge%10==4)
         {
-            move_to(150,head_local[1]);
+            move_to(150,center_local[1]);
             move_to(150,_Py);
             //move_to_exact(150,_Py);
             get_score(255-_Px,_Py);
@@ -276,14 +287,14 @@ void target2(int judge)
         }
         if(judge%10==3)
         {
-            move_to(head_local[0],150);
+            move_to(center_local[0],150);
             move_to(255-_Px,96);
             //move_to_exact(255-_Px,96);
             get_score(255-_Px,_Py);
         }
         if(judge%10==4)
         {
-            move_to(110,head_local[1]);
+            move_to(110,center_local[1]);
             move_to(150,_Py);
             //move_to_exact(150,_Py);
             get_score(255-_Px,_Py);
@@ -305,14 +316,14 @@ void target2(int judge)
         }
         if(judge%10==3)
         {
-            move_to(head_local[0],150);
+            move_to(center_local[0],150);
             move_to(255-_Px,96);
             //move_to_exact(255-_Px,96);
             get_score(255-_Px,_Py);
         }
         if(judge%10==4)
         {
-            move_to(150,head_local[1]);
+            move_to(150,center_local[1]);
             move_to(150,_Py);
             //move_to_exact(150,_Py);
             get_score(255-_Px,_Py);
@@ -339,14 +350,14 @@ void target3(int judge)
         }
         if(judge%10==3)
         {
-            move_to(head_local[0],110);//竖直移动到II区
+            move_to(center_local[0],110);//竖直移动到II区
             move_to(255-_Px,150);
             //move_to_exact(255-_Px,150);
             get_score(255-_Px,255-_Py);
         }
         if(judge%10==4)
         {
-            move_to(110,head_local[1]);//水平移动到I区
+            move_to(110,center_local[1]);//水平移动到I区
             move_to(150,255-_Py);
             //move_to_exact(150,255-_Py);
             get_score(255-_Px,255-_Py);
@@ -368,14 +379,14 @@ void target3(int judge)
         }
         if(judge%10==3)
         {
-            move_to(head_local[0],110);
+            move_to(center_local[0],110);
             move_to(255-_Px,150);
             //move_to_exact(255-_Px,150);
             get_score(255-_Px,255-_Py);
         }
         if(judge%10==4)
         {
-            move_to(150,head_local[1]);
+            move_to(150,center_local[1]);
             move_to(150,255-_Py);
             //move_to_exact(150,255-_Py);
             get_score(255-_Px,255-_Py);
@@ -397,14 +408,14 @@ void target3(int judge)
         }
         if(judge%10==3)
         {
-            move_to(head_local[0],150);
+            move_to(center_local[0],150);
             move_to(255-_Px,150);
             //move_to_exact(255-_Px,150);
             get_score(255-_Px,255-_Py);
         }
         if(judge%10==4)
         {
-            move_to(110,head_local[1]);
+            move_to(110,center_local[1]);
             move_to(150,255-_Py);
             //move_to_exact(150,255-_Py);
             get_score(255-_Px,255-_Py);
@@ -426,14 +437,14 @@ void target3(int judge)
         }
         if(judge%10==3)
         {
-            move_to(head_local[0],150);
+            move_to(center_local[0],150);
             move_to(255-_Px,150);
             //move_to_exact(255-_Px,150);
             get_score(255-_Px,255-_Py);
         }
         if(judge%10==4)
         {
-            move_to(150,head_local[1]);
+            move_to(150,center_local[1]);
             move_to(150,255-_Py);
             //move_to_exact(150,255-_Py);
             get_score(255-_Px,255-_Py);
@@ -459,14 +470,14 @@ void target4(int judge)
         }
         if(judge%10==3)
         {
-            move_to(head_local[0],110);//竖直移动到II区
+            move_to(center_local[0],110);//竖直移动到II区
             move_to(_Px,165);
             //move_to_exact(_Px,165);
             get_score(_Px,255-_Py);
         }
         if(judge%10==4)
         {
-            move_to(110,head_local[1]);//水平移动到I区
+            move_to(110,center_local[1]);//水平移动到I区
             move_to(110,255-_Py);
             //move_to_exact(110,255-_Py);
             get_score(_Px,255-_Py);
@@ -488,14 +499,14 @@ void target4(int judge)
         }
         if(judge%10==3)
         {
-            move_to(head_local[0],110);
+            move_to(center_local[0],110);
             move_to(_Px,165);
             //move_to_exact(_Px,165);
             get_score(_Px,255-_Py);
         }
         if(judge%10==4)
         {
-            move_to(150,head_local[1]);
+            move_to(150,center_local[1]);
             move_to(110,255-_Py);
             //move_to_exact(110,255-_Py);
             get_score(_Px,255-_Py);
@@ -517,14 +528,14 @@ void target4(int judge)
         }
         if(judge%10==3)
         {
-            move_to(head_local[0],150);
+            move_to(center_local[0],150);
             move_to(_Px,165);
             //move_to_exact(_Px,165);
             get_score(_Px,255-_Py);
         }
         if(judge%10==4)
         {
-            move_to(110,head_local[1]);
+            move_to(110,center_local[1]);
             move_to(110,255-_Py);
             //move_to_exact(110,255-_Py);
             get_score(_Px,255-_Py);
@@ -546,14 +557,14 @@ void target4(int judge)
         }
         if(judge%10==3)
         {
-            move_to(head_local[0],150);
+            move_to(center_local[0],150);
             move_to(_Px,165);
             //move_to_exact(_Px,165);
             get_score(_Px,255-_Py);
         }
         if(judge%10==4)
         {
-            move_to(150,head_local[1]);
+            move_to(150,center_local[1]);
             move_to(110,255-_Py);
             //move_to_exact(110,255-_Py);
             get_score(_Px,255-_Py);
