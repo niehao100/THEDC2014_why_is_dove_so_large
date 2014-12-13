@@ -1,7 +1,7 @@
 
 #include "thedc.h"
 
-unsigned char score=0,score_change=0,enemy_flag=0,time=0;
+unsigned char score=0,score_change=0,enemy_flag=0,time=0,p=0;
 void Init(void){
 
 	FPUEnable();
@@ -61,7 +61,7 @@ int main(void)
 
 	void (*target[4])(int judge)={&target1,&target2,&target3,&target4};
 	int i=0,x=0,y=0,k=0;
-	unsigned char place=0,p=0;
+	unsigned char place=0;
 	Init(); //初始化针脚什么的
 
 
@@ -74,28 +74,27 @@ int main(void)
 	SysCtlDelay(160000);
 
 	time=Position[22];
-
+	if(Position[0]==0) enemy_flag=1;
+	else enemy_flag=0;
 	//head(255,255);
 	//比赛逻辑
 	for(;;){
-		score=Position[5+5*Position[0]]+Position[5+5*enemy_flag];
+
 		if(Position[22]<(time+5)){continue;}
 		if(Position[22]<5) exit(0);
-		if(((check[0]==0)&&(check[1]==0)&&(check[2]==0)&&(check[3]==0))||(Position[23]==time))
+		if(((check[0]==0)&&(check[1]==0)&&(check[2]==0)&&(check[3]==0)))
 		{for(i=0;i<4;i++)	check[i]=1;}
 
 		place=Place(Position[1+5*Position[0]],Position[2+5*Position[0]]);
 		p=(int)(place/10)-1;
-		if(score_change!=score)
-			continue;
-
 		S_flag=1;
-		if(check[p])	{target[p](place);check[p]=0;}
+		if(check[p])	{target[p](place);check[p]=0;check[(p==0)?3:(p-1)]=1;}
 		else{
 			if(check[(p==0)?3:(p-1)]){ target[(p==0)?3:(p-1)](place);check[(p==0)?3:(p-1)]=0;continue;}
 			if(check[(p==3)?0:(p+1)]){ target[(p==3)?0:(p+1)](place);check[(p==3)?0:(p+1)]=0;continue;}
 			if(check[(p>1)?(p-2):(p+2)]){	target[(p>1)?(p-2):(p+2)](place); check[(p>1)?(p-2):(p+2)]=0;continue;}
 		}
+
 	}
 
 	goto begin;

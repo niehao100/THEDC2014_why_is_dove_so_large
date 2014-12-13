@@ -35,17 +35,17 @@ void right_move(int v)
 	if(v>0){
 		GPIOPinWrite(GPIO_PORTD_BASE, GPIO_PIN_2|GPIO_PIN_3, ahead);
 		GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, 0x4);
-		SysCtlDelay((1+v)*1600+1);
+		SysCtlDelay((v)*1600+1);
 	}
 	else{
 		v=-v;
 		GPIOPinWrite(GPIO_PORTD_BASE, GPIO_PIN_2|GPIO_PIN_3, back);
 		GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, 12);
-		SysCtlDelay((1+v)*1600+1);
+		SysCtlDelay((v)*1600+1);
 	}
 	GPIOPinWrite(GPIO_PORTD_BASE, GPIO_PIN_2|GPIO_PIN_3, stop);
 	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, 0);
-	SysCtlDelay((11-v)*1600+1);
+	SysCtlDelay((12-v)*1600+1);
 }
 
 void move_stright(int v){
@@ -97,6 +97,7 @@ head_begin:
 			else angel-=a;
 	}
 		sum+=angel;
+		if(sum>200000) sum=0;
 		IntMasterEnable();
 		//PID¿ØÖÆ
 		v=(int)(3.8*angel+1.4*sum);//+8*(angel-d));
@@ -120,7 +121,7 @@ for(;;){
 			if((abs(x-head_local[0])<20)&&(abs(y-head_local[1])<20)) break;
 				head(x,y);
 				if(Position[23]==0x00) exit(0);
-					t=(int)(0.90*sqrt((x-center_local[0])*(x-center_local[0])+(y-center_local[1])*(y-center_local[1])));
+					t=(int)(0.9*sqrt((x-center_local[0])*(x-center_local[0])+(y-center_local[1])*(y-center_local[1])));
 				for(i=-0;i<t;i++) move_stright(7);
 	}
 return ;
@@ -132,7 +133,8 @@ int i=0,v=0,t=0;
 for(;;){
 			if(S_flag<1) return;
 			if(Position[23]==0x00) exit(0);
-
+			if(score_change!=score) break;
+			if((Position[22]-time)<5) break;
 				if((abs(x-center_local[0])<5)&&(abs(y-center_local[1])<5)) return;
 
 				t=(int)(sqrt((x-center_local[0])*(x-center_local[0])+(y-center_local[1])*(y-center_local[1]))+10);

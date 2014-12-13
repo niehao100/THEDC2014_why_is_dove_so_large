@@ -18,15 +18,15 @@ void get_score(int x,int y){
 	get_score_begin:	move_to_exact(x,y);
 	if(S_flag>0){
 			score=Position[5+5*Position[0]];
-			t=Position[22];
+			t_c=Position[22];
 			GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, 0x08);
 			for(;;){
-				if(S_flag<1) return;
+				if(score_change!=score) {for(i=0;i<4;i++) check[i]=1;break;}
 				if(!((abs(x-center_local[0])<5)&&(abs(y-center_local[1])<5))) goto get_score_begin;
 				for(i=0;i<50;i++);
 				if(Position[23]==0x00) exit(0);
-				move_to_exact(x,y);
-				if(Position[5+5*Position[0]]!=score) 	break;
+				if((Position[22]-time)<3) {for(i=0;i<4;i++) check[i]=1;break;}
+
 				}
 			GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, 0x0);
 

@@ -77,7 +77,7 @@ extern int S_flag;//传感器状态
 extern int UART_flag;
 extern char senser_flag;//判断是那个传感器
 extern int check[4]; //有效坑判断
-extern unsigned char score,score_change,enemy_flag,time;
+extern unsigned char score,score_change,enemy_flag,time,p;
 //move
 #define ahead 0x4
 #define back 0x8

@@ -70,7 +70,18 @@ void UARTIntHandler(void)
 
 	}
 	//if(Position[22]<5) exit(0);
-	if((Position[22]-time)<5) S_flag=-1;
+	switch(Position[21]){
+	case 0x08: check[0]=0;if((abs(center_local[0]-_Px)<13)&&(abs(center_local[1]-_Py)<13)
+			&&((Position[22]-time)<25)) S_flag=-1;break;
+	case 0x04: check[1]=0;if((abs(center_local[0]-255+_Px)<13)&&(abs(center_local[1]-_Py)<13)
+			&&((Position[22]-time)<25)) S_flag=-1;break;
+	case 0x02: check[3]=0;if((abs(center_local[0]-_Px)<13)&&(abs(center_local[1]-255+_Py)<13)
+			&&((Position[22]-time)<25)) S_flag=-1;break;
+	case 0x01: check[2]=0;if((abs(center_local[0]-255+_Px)<13)&&(abs(center_local[1]-255+_Py)<13)
+			&&((Position[22]-time)<25)) S_flag=-1;break;
+	}
+
+	score=Position[5+5*enemy_flag]+Position[5+5*Position[0]];
 	if((Position[22]-time)==0) {for(j=0;j<4;j++)	check[j]=1;time=Position[22]-30;score_change=score;}
 
 	IntMasterEnable();
