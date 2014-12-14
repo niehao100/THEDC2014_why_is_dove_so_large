@@ -64,25 +64,23 @@ void UARTIntHandler(void)
 								}
 						//»ØË·
 			 }
-
 		// UARTprintf("%c",flag);
 		//for(j=0;j<26;j++)
-
 	}
-	//if(Position[22]<5) exit(0);
-	switch(Position[21]){
-	case 0x08: check[0]=0;if((abs(center_local[0]-_Px)<13)&&(abs(center_local[1]-_Py)<13)
-			&&((Position[22]-time)<25)) S_flag=-1;break;
-	case 0x04: check[1]=0;if((abs(center_local[0]-255+_Px)<13)&&(abs(center_local[1]-_Py)<13)
-			&&((Position[22]-time)<25)) S_flag=-1;break;
-	case 0x02: check[3]=0;if((abs(center_local[0]-_Px)<13)&&(abs(center_local[1]-255+_Py)<13)
-			&&((Position[22]-time)<25)) S_flag=-1;break;
-	case 0x01: check[2]=0;if((abs(center_local[0]-255+_Px)<13)&&(abs(center_local[1]-255+_Py)<13)
-			&&((Position[22]-time)<25)) S_flag=-1;break;
-	}
-
 	score=Position[5+5*enemy_flag]+Position[5+5*Position[0]];
 	if((Position[22]-time)==0) {for(j=0;j<4;j++)	check[j]=1;time=Position[22]-30;score_change=score;}
+
+	//if(Position[22]<5) exit(0);
+	switch(Position[21]){
+	case 0x08: if((abs(center_local[0]-_Px)<13)&&(abs(center_local[1]-_Py)<13)) {for(j=0;j<4;j++)	check[j]=1;}check[0]=0;break;
+	case 0x04: if((abs(center_local[0]-255+_Px)<13)&&(abs(center_local[1]-_Py)<13)) {for(j=0;j<4;j++)	check[j]=1;}check[1]=0;break;
+	case 0x02: if((abs(center_local[0]-_Px)<13)&&(abs(center_local[1]-255+_Py)<13)) {for(j=0;j<4;j++)	check[j]=1;}check[3]=0;break;
+	case 0x01: if((abs(center_local[0]-255+_Px)<13)&&(abs(center_local[1]-255+_Py)<13)) {for(j=0;j<4;j++)	check[j]=1;}check[2]=0;break;
+	}
+	if((abs(abs(Position[5*enemy_flag+1]-128)-(128-_Px))<10)&&(abs(abs(Position[5*enemy_flag+2]-128)-(128-_Py))<10)){
+			for(j=0;j<4;j++)	check[j]=0;
+			check[(int)(Place(Position[5*enemy_flag+1],Position[5*enemy_flag+2])/10-1)]=1;
+	}
 
 	IntMasterEnable();
 }

@@ -35,17 +35,17 @@ void right_move(int v)
 	if(v>0){
 		GPIOPinWrite(GPIO_PORTD_BASE, GPIO_PIN_2|GPIO_PIN_3, ahead);
 		GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, 0x4);
-		SysCtlDelay((v)*1600+1);
+		SysCtlDelay((v+2)*1600+1);
 	}
 	else{
 		v=-v;
 		GPIOPinWrite(GPIO_PORTD_BASE, GPIO_PIN_2|GPIO_PIN_3, back);
 		GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, 12);
-		SysCtlDelay((v)*1600+1);
+		SysCtlDelay((v+2)*1600+1);
 	}
 	GPIOPinWrite(GPIO_PORTD_BASE, GPIO_PIN_2|GPIO_PIN_3, stop);
 	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, 0);
-	SysCtlDelay((12-v)*1600+1);
+	SysCtlDelay((10-v)*1600+1);
 }
 
 void move_stright(int v){
@@ -79,10 +79,11 @@ int head(unsigned char x,unsigned char y){
 	int i=0,t=0,v=0;
 
 head_begin:
-	SysCtlDelay(SysCtlClockGet()/100);
+	SysCtlDelay(SysCtlClockGet()/300);
 	if(t==UART_flag) goto head_begin;
 	t=UART_flag;
 	if(Position[25]!=0x0A) goto head_begin;
+	if(Position[23]!=1) return 0;
 	if((abs(x-center_local[0])<5)&&(abs(y-center_local[1])<5)) {
 				return 1;
 	}
@@ -100,14 +101,14 @@ head_begin:
 		if(sum>200000) sum=0;
 		IntMasterEnable();
 		//PID¿ØÖÆ
-		v=(int)(3.8*angel+1.4*sum);//+8*(angel-d));
+		v=(int)(4.3*angel+0.35*sum);//+8*(angel-d));
 		d=angel;
-		if(angel>=0.0875){
-				for(i=0;i<abs(v);i++) turn_right();
+		if(angel>=0.0872){
+				for(i=0;i<abs(v)+4;i++) turn_right();
 				goto head_begin;
 		}
-		if(angel<=-0.0875){
-				for(i=0;i<abs(v);i++) turn_left();
+		if(angel<=-0.0872){
+				for(i=0;i<abs(v)+4;i++) turn_left();
 				goto head_begin;
 		}
 }

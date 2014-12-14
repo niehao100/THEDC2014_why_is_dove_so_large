@@ -14,7 +14,7 @@ void TimerConfig(){
 
 	TimerEnable(TIMER0_BASE, TIMER_A);
 
-	ROM_TimerLoadSet(TIMER0_BASE, TIMER_A, ROM_SysCtlClockGet()/64);
+	ROM_TimerLoadSet(TIMER0_BASE, TIMER_A, ROM_SysCtlClockGet()/90);
 
 	ROM_IntEnable(INT_TIMER0A);
 

@@ -22,10 +22,10 @@ void get_score(int x,int y){
 			GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, 0x08);
 			for(;;){
 				if(score_change!=score) {for(i=0;i<4;i++) check[i]=1;break;}
-				if(!((abs(x-center_local[0])<5)&&(abs(y-center_local[1])<5))) goto get_score_begin;
+				if(!((abs(x-center_local[0])<5)&&(abs(y-center_local[1])<5))) {S_flag=1;move_to_exact(x,y);}
 				for(i=0;i<50;i++);
 				if(Position[23]==0x00) exit(0);
-				if((Position[22]-time)<3) {for(i=0;i<4;i++) check[i]=1;break;}
+				if((Position[22]-time)<7) {for(i=0;i<4;i++) check[i]=1;break;}
 
 				}
 			GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, 0x0);
