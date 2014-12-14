@@ -98,7 +98,7 @@ void UARTSend(const uint8_t *, uint32_t );
 void UARTConfig();
 void UARTIntHandler(void);
 void UART0IntHandler(void);
-
+void move_to_exact(unsigned char x,unsigned char y);
 //´«¸ÐÆ÷
 void Timer0IntHandler(void);
 void TimerConfig();

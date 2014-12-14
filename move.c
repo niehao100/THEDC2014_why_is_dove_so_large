@@ -79,7 +79,7 @@ int head(unsigned char x,unsigned char y){
 	int i=0,t=0,v=0;
 
 head_begin:
-	SysCtlDelay(SysCtlClockGet()/300);
+	SysCtlDelay(SysCtlClockGet()/3000);
 	if(t==UART_flag) goto head_begin;
 	t=UART_flag;
 	if(Position[25]!=0x0A) goto head_begin;
@@ -101,7 +101,7 @@ head_begin:
 		if(sum>200000) sum=0;
 		IntMasterEnable();
 		//PID¿ØÖÆ
-		v=(int)(4.3*angel+0.35*sum);//+8*(angel-d));
+		v=(int)(4.0*angel+0.30*sum);//+8*(angel-d));
 		d=angel;
 		if(angel>=0.0872){
 				for(i=0;i<abs(v)+4;i++) turn_right();
@@ -138,15 +138,15 @@ for(;;){
 			if((Position[22]-time)<5) break;
 				if((abs(x-center_local[0])<5)&&(abs(y-center_local[1])<5)) return;
 
-				t=(int)(sqrt((x-center_local[0])*(x-center_local[0])+(y-center_local[1])*(y-center_local[1]))+10);
+				t=(int)(0.9*sqrt((x-center_local[0])*(x-center_local[0])+(y-center_local[1])*(y-center_local[1]))+10);
 
 				if(	 ((head_local[0]-tail_local[0])*(x-center_local[0])+(head_local[1]-tail_local[1])*(y-center_local[1]))<0	 )
 				{
-					v=-3;
+					v=-4;
 					head((unsigned char)(2*center_local[0]-x),(unsigned char)(2*center_local[1]-y));
 				}
 				else	{
-					v=3;
+					v=4;
 					head(x,y);
 				}
 				if((abs(x-center_local[0])<5)&&(abs(y-center_local[1])<5)) return;

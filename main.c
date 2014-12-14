@@ -50,8 +50,8 @@ void Init(void){
 	TimerConfig();
 	IntRegister(0,UARTIntHandler);
 	IntRegister(3,UART0IntHandler);
-	IntRegister(2,Timer0IntHandler);
-    IntRegister(1,GPIOA6INT);
+	IntRegister(1,Timer0IntHandler);
+    IntRegister(2,GPIOA6INT);
 }
 
 
@@ -64,31 +64,32 @@ int main(void)
 	unsigned char place=0;
 	Init(); //初始化针脚什么的
 
-
 	begin:
 	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, 0x08);
 	for(;;){
-		SysCtlDelay(160000);
+		SysCtlDelay(1600);
 		if(Position[23]==1) break;
 	}
-	SysCtlDelay(160000);
 
-	time=Position[22];
 	if(Position[0]==0) enemy_flag=1;
 	else enemy_flag=0;
 	//head(255,255);
 	//比赛逻辑
+	time=Position[22]-30;
+
 	for(;;){
 
-		if(Position[22]<(time+5)||Position[22]>(time+28)){continue;}
-		if(Position[22]<5) exit(0);
+		if((Position[22]<(time+5))
+				&&((abs(abs(head_local[0]-128)-(128-_Px))>35
+						||(abs(abs(head_local[1]-128)-(128-_Py))>35)))){continue;}
+
 		if(((check[0]==0)&&(check[1]==0)&&(check[2]==0)&&(check[3]==0)))
 		{for(i=0;i<4;i++)	check[i]=1;}
 
 		place=Place(Position[1+5*Position[0]],Position[2+5*Position[0]]);
 		p=(int)(place/10)-1;
 		S_flag=1;
-		if(check[p])	{target[p](place);check[p]=0;check[(p==0)?3:(p-1)]=1;}
+		if(check[p])	{target[p](place);check[p]=0;}
 		else{
 			if(check[(p==3)?0:(p+1)]){ target[(p==3)?0:(p+1)](place);check[(p==3)?0:(p+1)]=0;continue;}
 			if(check[(p==0)?3:(p-1)]){ target[(p==0)?3:(p-1)](place);check[(p==0)?3:(p-1)]=0;continue;}

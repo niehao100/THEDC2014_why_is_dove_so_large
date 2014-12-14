@@ -2,20 +2,33 @@
 
 
 int check[4]={1,1,1,1};
-/*void beat_enemy(){
-	if(enemyin);
+void beat_enemy(int px,int py){
+	int i=0;
+	int x=Position[enemy_flag*5+1],
+		y=Position[enemy_flag*5+2];
+	if((abs(x-px)>15)||(abs(y-py)>15)) return;
+	if(((center_local[0]-Position[enemy_flag*5+1])*(center_local[0]-Position[enemy_flag*5+1])
+			+(center_local[1]-Position[enemy_flag*5+2])*(center_local[1]-Position[enemy_flag*5+2]))
+			<400) {
+		if(	 ((head_local[0]-tail_local[0])*(x-center_local[0])+(head_local[1]-tail_local[1])*(y-center_local[1]))<0	 )
+		{
+				for(i=0;i<50;i++) move_stright(4);
+				head((unsigned char)(2*center_local[0]-x),(unsigned char)(2*center_local[1]-y));
+				for(i=0;i<100;i++) move_stright(-8);
+		}
+		else	{
+			for(i=0;i<50;i++) move_stright(-4);
+				head(x,y);
+				for(i=0;i<100;i++) move_stright(8);
+				}
+		if((abs(px-center_local[0])<5)&&(abs(py-center_local[1])<5)) return;
 
-	if((((int)(Place(Position[1+5*Position[0]],Position[2+5*Position[0]])/10))!=3)||
-			(((int)(Place(Position[1+5*Position[0]],Position[2+5*Position[0]])/10))!=4)||
-			((Place(Position[1+5*Position[0]],Position[2+5*Position[0]])%10)==
-					Place(Position[1+5*Position[0]],Position[2+5*Position[0]])%10)){
 	}
-
-}*/
+}
 
 void get_score(int x,int y){
 	int t_c=0,i=0;
-	get_score_begin:	move_to_exact(x,y);
+	move_to_exact(x,y);
 	if(S_flag>0){
 			score=Position[5+5*Position[0]];
 			t_c=Position[22];
@@ -25,8 +38,8 @@ void get_score(int x,int y){
 				if(!((abs(x-center_local[0])<5)&&(abs(y-center_local[1])<5))) {S_flag=1;move_to_exact(x,y);}
 				for(i=0;i<50;i++);
 				if(Position[23]==0x00) exit(0);
-				if((Position[22]-time)<7) {for(i=0;i<4;i++) check[i]=1;break;}
-
+				if((Position[22]-time)<4) {for(i=0;i<4;i++) check[i]=1;break;}
+				beat_enemy(x,y);
 				}
 			GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, 0x0);
 
