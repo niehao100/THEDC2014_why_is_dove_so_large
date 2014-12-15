@@ -136,7 +136,7 @@ for(;;){
 			if(Position[23]==0x00) exit(0);
 			if(score_change!=score) break;
 			if((Position[22]-time)<5) break;
-				if((abs(x-center_local[0])<5)&&(abs(y-center_local[1])<5)) return;
+				if((abs(x-center_local[0])<4)&&(abs(y-center_local[1])<4)) return;
 
 				t=(int)(0.9*sqrt((x-center_local[0])*(x-center_local[0])+(y-center_local[1])*(y-center_local[1]))+10);
 
