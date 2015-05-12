@@ -66,8 +66,8 @@
 ### 1. 准备阶段
 
 ```bash
-$ git clone http://git.eesast.com/ThomasLee/teamstyle16.git  # 克隆仓库到当前目录下
-$ cd teamstyle16  # 进入本地仓库文件夹
+$ git clone git@git.lambda.cool:nh13/thedc.git  # 克隆仓库到当前目录下
+$ cd thedc  # 进入本地仓库文件夹
 $ git status  # 确认下处在 develop 分支
 ```
 
