@@ -58,8 +58,7 @@ extern uint32_t __STACK_TOP;
 //*****************************************************************************
 extern void UARTIntHandler(void);
 extern void UART0IntHandler(void);
-extern void Timer0IntHandler(void);
-extern void GPIOA6INT(void);
+
 //extern void Timer1IntHandler(void);
 //*****************************************************************************
 //
@@ -88,7 +87,7 @@ void (* const g_pfnVectors[])(void) =
     0,                                      // Reserved
     IntDefaultHandler,                      // The PendSV handler
     IntDefaultHandler,                      // The SysTick handler
-    GPIOA6INT,                      // GPIO Port A
+    IntDefaultHandler,                      // GPIO Port A
     IntDefaultHandler,                      // GPIO Port B
     IntDefaultHandler,                      // GPIO Port C
     IntDefaultHandler,                      // GPIO Port D
@@ -107,7 +106,7 @@ void (* const g_pfnVectors[])(void) =
     IntDefaultHandler,                      // ADC Sequence 2
     IntDefaultHandler,                      // ADC Sequence 3
     IntDefaultHandler,                      // Watchdog timer
-    Timer0IntHandler,                      // Timer 0 subtimer A
+    IntDefaultHandler,                      // Timer 0 subtimer A
     IntDefaultHandler,                      // Timer 0 subtimer B
     IntDefaultHandler,                      // Timer 1 subtimer A
     IntDefaultHandler,                      // Timer 1 subtimer B
